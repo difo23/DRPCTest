@@ -1,0 +1,39 @@
+
+//npm install storm-drpc-node
+
+
+var DRPC = require('storm-drpc-node');
+
+
+
+
+var client = DRPC({
+    host: "localhost",
+    port: 3772,
+    timeout: 1000,
+    keepAlive: true,
+    maxConnectCounts: 30
+});
+
+client.on('error', function(err) {
+    throw err;
+});
+
+// promise way
+
+//execute(String spoutName, String emitValue[, Function callback]): call storm drpc cluster by thrift protocol
+
+data= "Envio esto del cliente javascript....."
+/*client.execute("exclamation", data)
+    .then(function(res) {
+        console.log(res);
+    })
+    .catch(function(err) {
+        throw err;
+    });
+*/
+// callback way
+client.execute('drpc', JSON.stringify(data), function(err, res) {
+    if(err) throw err;
+    else console.log(res);
+});
